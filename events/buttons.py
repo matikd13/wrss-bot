@@ -26,8 +26,10 @@ async def button_handler(bot, interaction: discord.Interaction):
             nazwa = i_id[1]
             if nazwa not in EMBED_SETTINGS.keys():
                 return await embed_res(interaction, f"Nie znaleziono embedu `` {nazwa} ``", 0)
+            
             embed_data = EMBED_SETTINGS[nazwa]["buttons"][int(i_id[2])]["embed"]
             embed = discord.Embed()
+            
             for key, value in embed_data.items():
                 if key in ["title", "description", "url", "color"]:
                     if key == "color":
@@ -46,8 +48,8 @@ async def button_handler(bot, interaction: discord.Interaction):
                     elif key == "fields":
                         for field in value:
                             embed.add_field(name=field["name"], value=field["value"], inline=field.get("inline", False))
-                            
+
             await interaction.response.send_message(embed=embed, ephemeral=True)
-            
+
         case _:
             return await embed_res(interaction, "Nie zdefiniowano odpowiedzi!", 0)
